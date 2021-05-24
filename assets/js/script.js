@@ -4,7 +4,7 @@ var quizTime = 10;
 
 function startTimer(){
     // Initial timer display
-    timerDisplay.textContent = quizTime;
+    displayTimer();
 
     // Create a new interval with callback function that decrements quizTime and displays the new quizTime each second.
     quizTimerInterval = setInterval(function(){
@@ -12,8 +12,12 @@ function startTimer(){
         if (quizTime === 0) {
             clearInterval(quizTimerInterval);
         }
-        timerDisplay.textContent = quizTime;
+        displayTimer();
     }, 1000)
 };
+
+function displayTimer() {
+    timerDisplay.textContent = quizTime;
+}
 
 startTimer();
