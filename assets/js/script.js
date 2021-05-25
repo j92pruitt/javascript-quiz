@@ -1,9 +1,12 @@
 var timerDisplay = document.getElementById("timerDisplay");
-var quizTime = 10;
+var quizTime
+var quizTimerInterval
+var startButton = document.getElementById("startGame");
 
 
 function startTimer(){
     // Initial timer display
+    quizTime = 10
     displayTimer();
 
     // Create a new interval with callback function that decrements quizTime and displays the new quizTime each second.
@@ -20,4 +23,4 @@ function displayTimer() {
     timerDisplay.textContent = quizTime;
 }
 
-startTimer();
+startButton.addEventListener("click", startTimer)
