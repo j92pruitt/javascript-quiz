@@ -4,7 +4,11 @@ var quizTimerInterval
 var startButton = document.getElementById("startGame");
 var mainEl = document.querySelector('main')
 
-var testQuestion = {
+// Bank of questions, stored as objects. 
+// text is the text of the question
+// option1-4 are the potential answers.
+// answer is the correct answer.
+var questionOne = {
     text : "This is a test question.",
     option1 : "Correct",
     option2 : "Not correct",
@@ -13,6 +17,26 @@ var testQuestion = {
     answer : "Correct"
 }
 
+var questionTwo = {
+    text : "What is the meaning of life, the universe, and everything?",
+    option1 : "21",
+    option2 : "57?",
+    option3 : "Greg",
+    option4 : "42",
+    answer : "42"
+}
+
+var questionThree = {
+    text : "What is your favorite color.",
+    option1 : "Blue, wait nooooooo...",
+    option2 : "Yellow",
+    option3 : "Orange",
+    option4 : "Edgelord Black",
+    answer : "Yellow"
+}
+
+// Array containing all questions
+var questionBank = [questionOne, questionTwo, questionThree]
 
 function startTimer(){
     // Initial timer display
@@ -34,7 +58,7 @@ function displayTimer() {
     timerDisplay.textContent = quizTime;
 }
 
-function sceneChangeQuiz(question) {
+function renderQuestion(question) {
     mainEl.innerHTML = "";
     quizH1 = document.createElement('h1');
     quizH1.textContent = question.text
@@ -52,6 +76,7 @@ function sceneChangeQuiz(question) {
         if (event.target.nodeName === 'BUTTON') {
             if (event.target.textContent === question.answer) {
                 console.log('Correct!')
+                nextQuestion()
             } else {
                 console.log('Wrong Answer!')
                 quizTime -= 10
@@ -69,9 +94,20 @@ function addAnswerButton(answerText) {
     optionList.append(answerli)
 }
 
+function nextQuestion(){
+    if (questionBank.length) {
+        var i = Math.floor(Math.random()*questionBank.length);
+        randomQuestion = questionBank.splice(i, 1)[0];
+        console.log(questionBank)
+        renderQuestion(randomQuestion)
+    } else{
+        clearInterval(quizTimerInterval);
+    }
+}
+
 function startGame(){
     startTimer();
-    sceneChangeQuiz(testQuestion);
+    nextQuestion();
 }
 
 startButton.addEventListener("click", startGame)
