@@ -102,7 +102,28 @@ function nextQuestion(){
         renderQuestion(randomQuestion)
     } else{
         clearInterval(quizTimerInterval);
+        renderVictory()
     }
+}
+
+function renderVictory(){
+    mainEl.innerHTML = "";
+    var victoryH1 = document.createElement('h1');
+    victoryH1.textContent = 'Congrats! You completed the quiz.';
+    mainEl.append(victoryH1);
+
+    victoryP = document.createElement('p');
+    victoryP.textContent = 'Please enter a name for the High Score Board.';
+    mainEl.append(victoryP);
+
+    victoryForm = document.createElement('form');
+    highScoreInput = document.createElement('input');
+    highScoreInput.setAttribute('type', 'text');
+    highScoreSubmit = document.createElement('input');
+    highScoreSubmit.setAttribute('type', 'submit');
+    victoryForm.append(highScoreInput);
+    victoryForm.append(highScoreSubmit)
+    mainEl.append(victoryForm)
 }
 
 function startGame(){
