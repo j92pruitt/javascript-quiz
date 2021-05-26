@@ -54,6 +54,7 @@ function displayTimer() {
     if (quizTime <= 0) {
         quizTime = 0;
         clearInterval(quizTimerInterval);
+        renderDefeat();
     }
     timerDisplay.textContent = quizTime;
 }
@@ -109,7 +110,7 @@ function nextQuestion(){
 function renderVictory(){
     mainEl.innerHTML = "";
     var victoryH1 = document.createElement('h1');
-    victoryH1.textContent = 'Congrats! You completed the quiz.';
+    victoryH1.textContent = 'Congrats! You completed the quiz';
     mainEl.append(victoryH1);
 
     victoryP = document.createElement('p');
@@ -124,6 +125,17 @@ function renderVictory(){
     victoryForm.append(highScoreInput);
     victoryForm.append(highScoreSubmit)
     mainEl.append(victoryForm)
+}
+
+function renderDefeat(){
+    mainEl.innerHTML = ""
+    var defeatH1 = document.createElement('h1');
+    defeatH1.textContent = 'Sorry you ran out of time';
+    mainEl.append(defeatH1);
+
+    retryButton = document.createElement('button');
+    retryButton.textContent = 'Try Again';
+    mainEl.append(retryButton);
 }
 
 function startGame(){
