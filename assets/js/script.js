@@ -4,6 +4,12 @@ var quizTimerInterval
 var startButton = document.getElementById("startGame");
 var mainEl = document.querySelector('main')
 
+// test = {
+//     name : 'Nani?',
+//     score : 85
+// }
+// localStorage.setItem('jpQuizLeaderboard', JSON.stringify([test]))
+
 // Bank of questions, stored as objects. 
 // text is the text of the question
 // option1-4 are the potential answers.
@@ -61,7 +67,7 @@ function displayTimer() {
 
 function renderQuestion(question) {
     mainEl.innerHTML = "";
-    quizH1 = document.createElement('h1');
+    var quizH1 = document.createElement('h1');
     quizH1.textContent = question.text
     mainEl.append(quizH1)
 
@@ -99,7 +105,6 @@ function nextQuestion() {
     if (questionBank.length) {
         var i = Math.floor(Math.random()*questionBank.length);
         randomQuestion = questionBank.splice(i, 1)[0];
-        console.log(questionBank)
         renderQuestion(randomQuestion)
     } else{
         clearInterval(quizTimerInterval);
@@ -113,18 +118,21 @@ function renderVictory() {
     victoryH1.textContent = 'Congrats! You completed the quiz';
     mainEl.append(victoryH1);
 
-    victoryP = document.createElement('p');
+    var victoryP = document.createElement('p');
     victoryP.textContent = 'Please enter a name for the High Score Board.';
     mainEl.append(victoryP);
 
     victoryForm = document.createElement('form');
-    highScoreInput = document.createElement('input');
+    var highScoreInput = document.createElement('input');
     highScoreInput.setAttribute('type', 'text');
-    highScoreSubmit = document.createElement('input');
+    highScoreInput.setAttribute('id', 'hs-name')
+    var highScoreSubmit = document.createElement('input');
     highScoreSubmit.setAttribute('type', 'submit');
     victoryForm.append(highScoreInput);
     victoryForm.append(highScoreSubmit)
     mainEl.append(victoryForm)
+
+    victoryForm.addEventListener('submit', handleSubmit)
 }
 
 function renderDefeat() {
@@ -133,7 +141,7 @@ function renderDefeat() {
     defeatH1.textContent = 'Sorry you ran out of time';
     mainEl.append(defeatH1);
 
-    retryButton = document.createElement('button');
+    var retryButton = document.createElement('button');
     retryButton.textContent = 'Try Again';
     mainEl.append(retryButton);
 
@@ -151,14 +159,34 @@ function renderStart() {
     startH1.textContent = 'Coding Quiz Challenge';
     mainEl.append(startH1);
 
-    startP = document.createElement('p');
+    var startP = document.createElement('p');
     startP.textContent = 'Try to answer the quiz questions as fast as you can, however being right is better than being fast so each wrong answer will cost you 10 seconds. Try to get the fastest time!';
     mainEl.append(startP);
 
-    startButton = document.createElement('button');
+    var startButton = document.createElement('button');
     startButton.textContent = 'Start Game';
     mainEl.append(startButton)
     startButton.addEventListener("click", startGame)
+}
+
+function handleSubmit(event) {
+    event.preventDefault()
+
+    var newHighScore = {
+        name : document.getElementById('hs-name').value,
+        score : quizTime
+    }
+
+    var prevLeaderboard = JSON.parse(localStorage.getItem('jpQuizLeaderboard'));
+    console.log(prevLeaderboard);
+
+    if (prevLeaderboard === null) {
+        newLeaderboard = JSON.stringify([newHighScore]);
+    } else{
+        prevLeaderboard.push(newHighScore);
+        newLeaderboard = JSON.stringify(prevLeaderboard);
+    }
+    localStorage.setItem('jpQuizLeaderboard', newLeaderboard);
 }
 
 function startGame(){
