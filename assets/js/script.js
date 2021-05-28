@@ -35,8 +35,8 @@ var questionThree = {
     answer : "Yellow"
 }
 
-// Array containing all questions
-var questionBank = [questionOne, questionTwo, questionThree]
+// Array containing all questions, filled with all questions during renderStart.
+var questionBank
 
 function startTimer(){
     // Initial timer display
@@ -95,7 +95,7 @@ function addAnswerButton(answerText) {
     optionList.append(answerli)
 }
 
-function nextQuestion(){
+function nextQuestion() {
     if (questionBank.length) {
         var i = Math.floor(Math.random()*questionBank.length);
         randomQuestion = questionBank.splice(i, 1)[0];
@@ -107,7 +107,7 @@ function nextQuestion(){
     }
 }
 
-function renderVictory(){
+function renderVictory() {
     mainEl.innerHTML = "";
     var victoryH1 = document.createElement('h1');
     victoryH1.textContent = 'Congrats! You completed the quiz';
@@ -127,8 +127,8 @@ function renderVictory(){
     mainEl.append(victoryForm)
 }
 
-function renderDefeat(){
-    mainEl.innerHTML = ""
+function renderDefeat() {
+    mainEl.innerHTML = "";
     var defeatH1 = document.createElement('h1');
     defeatH1.textContent = 'Sorry you ran out of time';
     mainEl.append(defeatH1);
@@ -136,6 +136,29 @@ function renderDefeat(){
     retryButton = document.createElement('button');
     retryButton.textContent = 'Try Again';
     mainEl.append(retryButton);
+
+    retryButton.addEventListener("click", renderStart)
+}
+
+function renderStart() {
+    quizTime = 75;
+    displayTimer();
+
+    questionBank = [questionOne, questionTwo, questionThree]
+
+    mainEl.innerHTML = "";
+    var startH1 = document.createElement('h1');
+    startH1.textContent = 'Coding Quiz Challenge';
+    mainEl.append(startH1);
+
+    startP = document.createElement('p');
+    startP.textContent = 'Try to answer the quiz questions as fast as you can, however being right is better than being fast so each wrong answer will cost you 10 seconds. Try to get the fastest time!';
+    mainEl.append(startP);
+
+    startButton = document.createElement('button');
+    startButton.textContent = 'Start Game';
+    mainEl.append(startButton)
+    startButton.addEventListener("click", startGame)
 }
 
 function startGame(){
@@ -143,4 +166,4 @@ function startGame(){
     nextQuestion();
 }
 
-startButton.addEventListener("click", startGame)
+renderStart();
