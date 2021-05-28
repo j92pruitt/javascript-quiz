@@ -4,11 +4,7 @@ var quizTimerInterval
 var startButton = document.getElementById("startGame");
 var mainEl = document.querySelector('main')
 
-// test = {
-//     name : 'Nani?',
-//     score : 85
-// }
-// localStorage.setItem('jpQuizLeaderboard', JSON.stringify([test]))
+var highscoreLink = document.getElementById("highscores")
 
 // Bank of questions, stored as objects. 
 // text is the text of the question
@@ -82,12 +78,11 @@ function renderQuestion(question) {
     optionList.addEventListener('click', function(event) {
         if (event.target.nodeName === 'BUTTON') {
             if (event.target.textContent === question.answer) {
-                console.log('Correct!')
                 nextQuestion()
             } else {
-                console.log('Wrong Answer!')
                 quizTime -= 10
                 displayTimer()
+                nextQuestion()
             }
         }
     })
@@ -178,7 +173,6 @@ function handleSubmit(event) {
     }
 
     var prevLeaderboard = JSON.parse(localStorage.getItem('jpQuizLeaderboard'));
-    console.log(prevLeaderboard);
 
     if (prevLeaderboard === null) {
         newLeaderboard = JSON.stringify([newHighScore]);
@@ -186,12 +180,52 @@ function handleSubmit(event) {
         prevLeaderboard.push(newHighScore);
         newLeaderboard = JSON.stringify(prevLeaderboard);
     }
+
     localStorage.setItem('jpQuizLeaderboard', newLeaderboard);
+    
+    renderHighScores()
+}
+
+function renderHighScores() {
+    mainEl.innerHTML = "";
+    var highScoreH1 = document.createElement('h1');
+    highScoreH1.textContent = 'The Leaderboard';
+    mainEl.append(highScoreH1);
+
+    var highScoreList = document.createElement('ul');
+
+    var leaderboard = JSON.parse(localStorage.getItem('jpQuizLeaderboard'))
+
+    if (leaderboard !== null) {
+        for (i = 0; i < leaderboard.length; i++) {
+            var hsItem = document.createElement('li');
+            hsItem.textContent = leaderboard[i].name + '  -  ' + leaderboard[i].score;
+            highScoreList.append(hsItem);
+        }
+    }
+    mainEl.append(highScoreList)
+
+    var backButton = document.createElement('button');
+    var clearButton = document.createElement('button');
+    backButton.textContent = 'Go Back';
+    clearButton.textContent = 'Clear Scores';
+    mainEl.append(backButton);
+    mainEl.append(clearButton);
+
+    backButton.addEventListener('click', renderStart);
+    clearButton.addEventListener('click', clearHighScores);
+}
+
+function clearHighScores() {
+    localStorage.clear();
+    renderHighScores();
 }
 
 function startGame(){
     startTimer();
     nextQuestion();
 }
+
+highscoreLink.addEventListener("click", renderHighScores)
 
 renderStart();

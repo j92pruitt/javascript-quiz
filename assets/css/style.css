@@ -12,6 +12,10 @@ header p{
     margin: 0;
 }
 
+header a{
+    cursor: pointer;
+}
+
 main{
     display: flex;
     flex-direction: column;
