@@ -167,11 +167,19 @@ function renderStart() {
 function handleSubmit(event) {
     event.preventDefault()
 
-    var newHighScore = {
-        name : document.getElementById('hs-name').value,
-        score : quizTime
-    }
+    var userInput = document.getElementById('hs-name').value
 
+    if (userInput.trim() === "") {
+        var newHighScore = {
+            name : 'Anon',
+            score : quizTime
+        }
+    } else {
+        var newHighScore = {
+            name : userInput.trim(),
+            score : quizTime
+        }
+    }
     var prevLeaderboard = JSON.parse(localStorage.getItem('jpQuizLeaderboard'));
 
     if (prevLeaderboard === null) {
