@@ -28,6 +28,9 @@ main{
     align-items: center;
     padding-left: 20px;
     padding-right: 20px;
+    max-width: 728px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 main p{
@@ -81,4 +84,23 @@ main h1{
 .answerButton:active {
 	position:relative;
 	top:1px;
+}
+
+#hs-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (min-width: 1100px) {
+    header p{
+        margin-right: 15px;
+    }
+
+    header a{
+        margin-left: 15px;
+    }
+}
+
+.highscorelist li{
+    font-size: 1.5rem;
 }

@@ -153,7 +153,7 @@ function renderVictory() {
     victoryForm.append(highScoreSubmit)
     mainEl.append(victoryForm)
 
-    // Event listener for 
+    // Event listener for submitting leaderboard name.
     victoryForm.addEventListener('submit', handleSubmit)
 }
 
@@ -164,12 +164,15 @@ function renderDefeat() {
     defeatH1.textContent = 'Sorry, you ran out of time';
     mainEl.append(defeatH1);
 
+    // Create 'Try Again' button and append it.
     var retryButton = document.createElement('a');
     retryButton.textContent = 'Try Again';
     retryButton.setAttribute('href', '#');
+    // Style <a> into custom button using myButton class
     retryButton.setAttribute('class', 'myButton');
     mainEl.append(retryButton);
 
+    // Event listener for restarting quiz.
     retryButton.addEventListener("click", renderStart);
 }
 
@@ -203,6 +206,7 @@ function renderStart() {
     startButton.addEventListener("click", startGame)
 }
 
+// Handles reading user input and adding new highscore to storage.
 function handleSubmit(event) {
     event.preventDefault()
 
@@ -234,30 +238,50 @@ function handleSubmit(event) {
 }
 
 function renderHighScores() {
+    // Clear main then create and append h1.
     mainEl.innerHTML = "";
     var highScoreH1 = document.createElement('h1');
     highScoreH1.textContent = 'The Leaderboard';
     mainEl.append(highScoreH1);
 
-    var highScoreList = document.createElement('ul');
+    // Create ol for holding high scores.
+    var highScoreList = document.createElement('ol');
+    highScoreList.setAttribute('type', '1');
+    highScoreList.setAttribute('class', 'highscorelist')
 
+    // Get array highscores from storage.
     var leaderboard = JSON.parse(localStorage.getItem('jpQuizLeaderboard'))
 
+    // Check to see if there are any scores in array.
     if (leaderboard !== null) {
+        // If there are scores in array then create an li element for each one and append it to <ol>
         for (i = 0; i < leaderboard.length; i++) {
             var hsItem = document.createElement('li');
             hsItem.textContent = leaderboard[i].name + '  -  ' + leaderboard[i].score;
             highScoreList.append(hsItem);
         }
     }
+    // Append <ol> to main
     mainEl.append(highScoreList)
 
-    var backButton = document.createElement('button');
-    var clearButton = document.createElement('button');
+    // Create div for styling buttons via flex box.
+    var buttonDiv = document.createElement('div');
+    buttonDiv.setAttribute('id', 'hs-buttons');
+    // Create buttons for high score page.
+    var backButton = document.createElement('a');
+    var clearButton = document.createElement('a');
     backButton.textContent = 'Go Back';
     clearButton.textContent = 'Clear Scores';
-    mainEl.append(backButton);
-    mainEl.append(clearButton);
+    backButton.setAttribute('href', '#');
+    clearButton.setAttribute('href', '#');
+    backButton.setAttribute('class', 'answerButton');
+    clearButton.setAttribute('class', 'answerButton');
+    // Append buttons to div.
+    buttonDiv.append(backButton);
+    buttonDiv.append(clearButton);
+
+    // Append div to main.
+    mainEl.append(buttonDiv);
 
     backButton.addEventListener('click', renderStart);
     clearButton.addEventListener('click', clearHighScores);
