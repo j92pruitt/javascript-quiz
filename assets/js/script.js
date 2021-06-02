@@ -29,7 +29,7 @@ var questionTwo = {
 }
 
 var questionThree = {
-    text : "What is your favorite color.",
+    text : "What is your favorite color?",
     option1 : "Blue, wait nooooooo...",
     option2 : "Yellow",
     option3 : "Orange",

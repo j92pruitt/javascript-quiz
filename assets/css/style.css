@@ -10,18 +10,28 @@ header{
 
 header p{
     margin: 0;
+    font-size: 1.5rem;
 }
 
 header a{
     cursor: pointer;
+    font-size: 1.35rem;
 }
 
 main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-left: 30%;
-    padding-right: 30%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+main p{
+    font-size: 1.25rem;
+}
+
+main h1{
+    text-align: center;
 }
 
 .myButton {
