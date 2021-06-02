@@ -62,24 +62,35 @@ function displayTimer() {
 }
 
 function renderQuestion(question) {
+    // Clear main element then create and append new h1
     mainEl.innerHTML = "";
     var quizH1 = document.createElement('h1');
     quizH1.textContent = question.text
     mainEl.append(quizH1)
 
-    optionList = document.createElement('ul');
+    // Create <ol> element to hold answer buttons
+    optionList = document.createElement('ol');
+    optionList.setAttribute('type', 'A');
+    optionList.setAttribute('class', 'answers')
 
+    // Create and append a button for each answer and append it to the <ol>
     addAnswerButton(question.option1)
     addAnswerButton(question.option2)
     addAnswerButton(question.option3)
     addAnswerButton(question.option4)
 
+    // Append the <ol> and add an event listener that checks for a button press and handles the event.
     mainEl.append(optionList)
     optionList.addEventListener('click', function(event) {
-        if (event.target.nodeName === 'BUTTON') {
+
+        event.preventDefault()
+
+        if (event.target.nodeName === 'A') {
+            // If the answer button clicked is the correct answer move on to the next question.
             if (event.target.textContent === question.answer) {
                 nextQuestion()
             } else {
+                // If the answer button clicked is not the correct answer then deduct 10 seconds and move on to the next question.
                 quizTime -= 10
                 displayTimer()
                 nextQuestion()
@@ -88,10 +99,16 @@ function renderQuestion(question) {
     })
 }
 
+//Helper function for `renderQuestion()`. Will error if called outside of `renderQuestion`.
 function addAnswerButton(answerText) {
+    // Create list element and button.
     var answerli = document.createElement('li');
-    var answerButtton = document.createElement('button');
+    var answerButtton = document.createElement('a');
+    // Style button using input text
     answerButtton.textContent = answerText;
+    answerButtton.setAttribute('href', '#')
+    answerButtton.setAttribute('class', 'answerButton')
+    // Append button to <li> and then append <li> to <ol>.
     answerli.append(answerButtton);
     optionList.append(answerli)
 }
