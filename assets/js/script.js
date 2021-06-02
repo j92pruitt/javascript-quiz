@@ -210,30 +210,38 @@ function renderStart() {
 function handleSubmit(event) {
     event.preventDefault()
 
+    // The text input field of the form
     var userInput = document.getElementById('hs-name').value
 
+    // Check to see if the form input is empty.
     if (userInput.trim() === "") {
+        // If form is empty then create new score with name Anon.
         var newHighScore = {
             name : 'Anon',
             score : quizTime
         }
     } else {
+        // If form is not empty then create new score with name in input.
         var newHighScore = {
             name : userInput.trim(),
             score : quizTime
         }
     }
+    // Get array of highscores from storage.
     var prevLeaderboard = JSON.parse(localStorage.getItem('jpQuizLeaderboard'));
-
+    // Check to see if there are highscores in storage.
     if (prevLeaderboard === null) {
+        // If there aren't high scores in storage then create a new array with the new highscore.
         newLeaderboard = JSON.stringify([newHighScore]);
     } else{
+        // If there are high scores in storage then add new highscore to array.
         prevLeaderboard.push(newHighScore);
         newLeaderboard = JSON.stringify(prevLeaderboard);
     }
-
+    // Store new highscore list in memory.
     localStorage.setItem('jpQuizLeaderboard', newLeaderboard);
     
+    // Display highscores on the page.
     renderHighScores()
 }
 
