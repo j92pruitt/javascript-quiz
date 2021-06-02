@@ -178,7 +178,7 @@ function renderDefeat() {
 
 function renderStart() {
     // Set Quiz Timer to initial time.
-    quizTime = 5;
+    quizTime = 75;
     displayTimer();
 
     // Initial the bank of potential questions for the game.
