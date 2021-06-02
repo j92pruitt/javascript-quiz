@@ -144,22 +144,31 @@ function renderDefeat() {
 }
 
 function renderStart() {
+    // Set Quiz Timer to initial time.
     quizTime = 75;
     displayTimer();
 
+    // Initial the bank of potential questions for the game.
     questionBank = [questionOne, questionTwo, questionThree]
 
+    // Clear main then create and append the header
     mainEl.innerHTML = "";
     var startH1 = document.createElement('h1');
     startH1.textContent = 'Coding Quiz Challenge';
     mainEl.append(startH1);
 
+    // Create and append the instruction paragraph
     var startP = document.createElement('p');
     startP.textContent = 'Try to answer the quiz questions as fast as you can, however being right is better than being fast so each wrong answer will cost you 10 seconds. Try to get the fastest time!';
     mainEl.append(startP);
 
-    var startButton = document.createElement('button');
+    // Create the button to start the game.
+    var startButton = document.createElement('a');
     startButton.textContent = 'Start Game';
+    startButton.setAttribute('href', '#')
+    // Adding the correct class to display the <a> tag as a custom button.
+    startButton.setAttribute('class', 'myButton')
+    // Append the button to the page and add an event listener to `startGame` on click.
     mainEl.append(startButton)
     startButton.addEventListener("click", startGame)
 }
@@ -229,7 +238,10 @@ function clearHighScores() {
     renderHighScores();
 }
 
-function startGame(){
+function startGame(event){
+
+    event.preventDefault();
+
     startTimer();
     nextQuestion();
 }

@@ -24,6 +24,24 @@ main{
     padding-right: 30%;
 }
 
-#startGame{
-    max-width: 120px;
+.myButton {
+	background:linear-gradient(to bottom, #ad78c2 5%, #75469c 100%);
+	background-color:#ad78c2;
+	border-radius:10px;
+	border:1px solid #804d94;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:9px 25px;
+	text-decoration:none;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #75469c 5%, #ad78c2 100%);
+	background-color:#75469c;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }
