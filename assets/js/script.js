@@ -42,7 +42,6 @@ var questionBank
 
 function startTimer(){
     // Initial timer display
-    quizTime = 75
     displayTimer();
 
     // Create a new interval with callback function that decrements quizTime and displays the new quizTime each second.
@@ -53,11 +52,13 @@ function startTimer(){
 };
 
 function displayTimer() {
+    // Check to see if time has run out.
     if (quizTime <= 0) {
         quizTime = 0;
         clearInterval(quizTimerInterval);
         renderDefeat();
     }
+    // Update html element that displays time to current game time.
     timerDisplay.textContent = quizTime;
 }
 
@@ -93,7 +94,9 @@ function renderQuestion(question) {
                 // If the answer button clicked is not the correct answer then deduct 10 seconds and move on to the next question.
                 quizTime -= 10
                 displayTimer()
-                nextQuestion()
+                if (quizTime > 0) {
+                    nextQuestion()
+                }
             }
         }
     })
@@ -114,26 +117,32 @@ function addAnswerButton(answerText) {
 }
 
 function nextQuestion() {
+    // Check to see if there are questions left that haven't been asked.
     if (questionBank.length) {
+        // If there are then choose a random question and render it to the screen.
         var i = Math.floor(Math.random()*questionBank.length);
         randomQuestion = questionBank.splice(i, 1)[0];
         renderQuestion(randomQuestion)
     } else{
+        // If there are not then end the game with a win.
         clearInterval(quizTimerInterval);
         renderVictory()
     }
 }
 
 function renderVictory() {
+    // Clear main then create and append new h1.
     mainEl.innerHTML = "";
     var victoryH1 = document.createElement('h1');
-    victoryH1.textContent = 'Congrats! You completed the quiz';
+    victoryH1.textContent = 'Congratulations!';
     mainEl.append(victoryH1);
 
+    // Create instruction paragraph and append.
     var victoryP = document.createElement('p');
-    victoryP.textContent = 'Please enter a name for the High Score Board.';
+    victoryP.textContent = 'Please enter a name for the leaderboard.';
     mainEl.append(victoryP);
 
+    // Create and append form for inputing name for leaderboard.
     victoryForm = document.createElement('form');
     var highScoreInput = document.createElement('input');
     highScoreInput.setAttribute('type', 'text');
@@ -144,25 +153,29 @@ function renderVictory() {
     victoryForm.append(highScoreSubmit)
     mainEl.append(victoryForm)
 
+    // Event listener for 
     victoryForm.addEventListener('submit', handleSubmit)
 }
 
 function renderDefeat() {
+    // Clear main then create and append h1
     mainEl.innerHTML = "";
     var defeatH1 = document.createElement('h1');
-    defeatH1.textContent = 'Sorry you ran out of time';
+    defeatH1.textContent = 'Sorry, you ran out of time';
     mainEl.append(defeatH1);
 
-    var retryButton = document.createElement('button');
+    var retryButton = document.createElement('a');
     retryButton.textContent = 'Try Again';
+    retryButton.setAttribute('href', '#');
+    retryButton.setAttribute('class', 'myButton');
     mainEl.append(retryButton);
 
-    retryButton.addEventListener("click", renderStart)
+    retryButton.addEventListener("click", renderStart);
 }
 
 function renderStart() {
     // Set Quiz Timer to initial time.
-    quizTime = 75;
+    quizTime = 5;
     displayTimer();
 
     // Initial the bank of potential questions for the game.
