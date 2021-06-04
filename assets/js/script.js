@@ -3,6 +3,7 @@ var quizTime
 var quizTimerInterval
 var startButton = document.getElementById("startGame");
 var mainEl = document.querySelector('main')
+var headerEl = document.querySelector('header')
 
 var highscoreLink = document.getElementById("highscores")
 
@@ -134,10 +135,14 @@ function renderQuestion(question) {
         if (event.target.nodeName === 'A') {
             // If the answer button clicked is the correct answer move on to the next question.
             if (event.target.textContent === question.answer) {
+                // Changes header to green to indicate answer was correct.
+                headerEl.style.background = '#008000';
                 nextQuestion()
             } else {
                 // If the answer button clicked is not the correct answer then deduct 10 seconds and move on to the next question.
                 quizTime -= 10
+                // Changes header to red to indicate answer was not correct.
+                headerEl.style.background = '#FF0000';
                 displayTimer()
                 if (quizTime > 0) {
                     nextQuestion()
@@ -222,6 +227,9 @@ function renderDefeat() {
 }
 
 function renderStart() {
+    // Clears correct/incorrect indicator from previous quiz.
+    headerEl.style.background = 'none';
+
     // Set Quiz Timer to initial time.
     quizTime = 75;
     displayTimer();
