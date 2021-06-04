@@ -11,32 +11,77 @@ var highscoreLink = document.getElementById("highscores")
 // option1-4 are the potential answers.
 // answer is the correct answer.
 var questionOne = {
-    text : "This is a test question.",
-    option1 : "Correct",
-    option2 : "Not correct",
-    option3 : "Really not correct",
-    option4 : "Eh, this might be the right answer.",
-    answer : "Correct"
+    text : "How do you declare a variable named num with value 5?",
+    option1 : "num = 5",
+    option2 : "--num = 5",
+    option3 : "var num = 5",
+    option4 : "var num == 5",
+    answer : "var num = 5"
 }
 
 var questionTwo = {
-    text : "What is the meaning of life, the universe, and everything?",
-    option1 : "21",
-    option2 : "57?",
-    option3 : "Greg",
-    option4 : "42",
-    answer : "42"
+    text : "Which type of variable is visible only within a function where it is defined.",
+    option1 : "global variable",
+    option2 : "local variable",
+    option3 : "Both of the above",
+    option4 : "Neither of the above",
+    answer : "local variable"
 }
 
 var questionThree = {
-    text : "What is your favorite color?",
-    option1 : "Blue, wait nooooooo...",
-    option2 : "Yellow",
-    option3 : "Orange",
-    option4 : "Edgelord Black",
-    answer : "Yellow"
+    text : "Which of the following function of String object returns the calling string value converted to upper case?",
+    option1 : "toLocaleUpperCase()",
+    option2 : "toUpperCase()",
+    option3 : "toString()",
+    option4 : "substring()",
+    answer : "toUpperCase()"
 }
 
+var questionFour = {
+    text : "Which of the following function of Array object removes the last element from an array and returns that element?",
+    option1 : "pop()",
+    option2 : "push()",
+    option3 : "join()",
+    option4 : "map()",
+    answer : "pop()"
+}
+
+
+var questionFive = {
+    text : "Which of the following is true about variable naming conventions in JavaScript?",
+    option1 : "Variable names must begin with a letter or an underscore.",
+    option2 : "Variable names are case sensitive.",
+    option3 : "Both of the above.",
+    option4 : "None of the above.",
+    answer : "Both of the above."
+}
+
+var questionSix = {
+    text : "If para1 is the DOM object for a paragraph, what is the correct syntax to change the text within the paragraph?",
+    option1 : '"New Text"?',
+    option2 : 'para1.value="New Text";',
+    option3 : 'para1.firstChild.nodeValue= "New Text";',
+    option4 : 'para1.nodeValue="New Text";',
+    answer : 'para1.value="New Text";'
+}
+
+var questionSeven = {
+    text : "JavaScript is interpreted by _________",
+    option1 : "Client",
+    option2 : "Server",
+    option3 : "Object",
+    option4 : "None of the above",
+    answer : "Client"
+}
+
+var questionEight = {
+    text : "The _______ method of an Array object adds and/or removes elements from an array.",
+    option1 : "Reverse",
+    option2 : "Shift",
+    option3 : "Slice",
+    option4 : "Splice",
+    answer : "Splice"
+}
 // Array containing all questions, filled with all questions during renderStart.
 var questionBank
 
@@ -182,7 +227,7 @@ function renderStart() {
     displayTimer();
 
     // Initial the bank of potential questions for the game.
-    questionBank = [questionOne, questionTwo, questionThree]
+    questionBank = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight]
 
     // Clear main then create and append the header
     mainEl.innerHTML = "";
@@ -235,9 +280,24 @@ function handleSubmit(event) {
         newLeaderboard = JSON.stringify([newHighScore]);
     } else{
         // If there are high scores in storage then add new highscore to array.
-        prevLeaderboard.push(newHighScore);
+        // Check high score list item by item until you find the first score lower than current score and insert current score at that location.
+        for (i = 0; i < prevLeaderboard.length; i++) {
+            // Check to see if entry has lower score than current.
+            if (newHighScore.score > prevLeaderboard[i].score) {
+                // If so then insert at that location; then strigify, store, and render. Then return from function.
+                prevLeaderboard.splice(i, 0, newHighScore);
+                newLeaderboard = JSON.stringify(prevLeaderboard);
+                localStorage.setItem('jpQuizLeaderboard', newLeaderboard);
+                renderHighScores();
+                return
+            }
+        }
+
+        // Will only be accessed when prev high scores exist and the new highscore is lower than all existing scores. In this case push new score onto end of array and stringify.
+        prevLeaderboard.push(newHighScore)
         newLeaderboard = JSON.stringify(prevLeaderboard);
     }
+
     // Store new highscore list in memory.
     localStorage.setItem('jpQuizLeaderboard', newLeaderboard);
     

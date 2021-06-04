@@ -12,4 +12,5 @@ A simple website featuring a timed java script quiz. The site uses javascript to
 Through this project I was able to explore creating dynamic pages using javascript, in particular I got a lot of experience using the javascript to manipulate the DOM. I also learned alot about scripting website flow using javascript functions.
 
 ## Credits
-Button styling was achieved using https://www.bestcssbuttongenerator.com
+* Button styling was achieved using https://www.bestcssbuttongenerator.com
+* Questions pulled from http://mcqspdfs.blogspot.com/2013/08/60-top-javascript-multiple-choice.html and https://www.tutorialspoint.com/javascript/javascript_online_quiz.htm
